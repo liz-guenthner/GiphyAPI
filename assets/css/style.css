@@ -9,7 +9,7 @@
     font-style:normal; */
 }
 
-html, body {
+/* html, body {
     width:100%;
 }
 body {
@@ -27,13 +27,20 @@ body {
     margin:0 auto;
     min-height: 700px;
     max-height: 700px;
+} */
+
+button,
+div,
+form,
+input {
+    margin: 10px;
 }
 
-footer {
+/* footer {
     width: 100%;
     margin:20px auto;
     text-align:center;
-}
+} */
 
 @media only screen and (min-width: 768px) {
 
