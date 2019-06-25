@@ -1,84 +1,66 @@
+$( document ).ready(function(){
+    var selectionArray = ["cat", "dog", "worm", "bug"];
 
-// Initial array of movies
-var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
+    function displaySelectionInfo() {
 
-// displayMovieInfo function re-renders the HTML to display the appropriate content
-function displayMovieInfo() {
+    var selection = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=KeXx2zMYQ70666zLJ78Zk0l2j4aPSqu7&q=" + selection + "&limit=25&offset=0&rating=G&lang=en";
 
-var movie = $(this).attr("data-name");
-var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+        }).then(function(response) {
+            
+            var selectionDiv = $("<div>");
 
-// Creates AJAX call for the specific movie button being clicked
-$.ajax({
-    url: queryURL,
-    method: "GET"
-    }).then(function(response) {
-        console.log(response);
-        // Creates a div to hold the movie
-        var movieDiv = $("<div>");
-        movieDiv.addClass("movie");
-        $("#movies-view").prepend(movieDiv);
-        // Retrieves the Rating Data
-        // Creates an element to have the rating displayed
-        // Displays the rating
-        movieDiv.append("<p>Title: " + response.Title + "</p>");
-        movieDiv.append("<p>Rated: " + response.Rated + "</p>");
-        // Retrieves the release year
-        // Creates an element to hold the release year
-        // Displays the release year
-        movieDiv.append("<p>Release Year: " + response.Released + "</p>");
-        // Retrieves the plot
-        // Creates an element to hold the plot
-        // Appends the plot
-        movieDiv.append("<p>Plot: " + response.Plot + "</p>");
-        // Creates an element to hold the image
-        // Appends the image
-        var movieImage = $("<img>");
-        movieImage.attr("src", response.Poster);
-        movieDiv.append(movieImage);
-        // Puts the entire Movie above the previous movies.
-        $("#movies-view").prepend(movieDiv);
-    });
-}
+            var selectionImage = $("<img>");
+            selectionImage.addClass("still");
+            selectionImage.attr("src", response.data[0].images.fixed_height_still.url);
+            selectionDiv.append(selectionImage);
 
-// Function for displaying movie data
-function renderButtons() {
+            var selectionGif = $("<img>");
+            selectionGif.addClass("moving");
+            selectionGif.attr("src", response.data[0].images.fixed_height.url);
+            selectionDiv.append(selectionGif);
+            selectionGif.hide(); // hide the still image
 
-// Deletes the movies prior to adding new movies
-// (this is necessary otherwise you will have repeat buttons)
-    $("#buttons-view").empty();
-    // Loops through the array of movies
-    for (var i = 0; i < movies.length; i++) {
+            $("#selection-view").prepend(selectionDiv);
 
-        // Then dynamicaly generates buttons for each movie in the array
-        // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-        var a = $("<button>");
-        // Adds a class of movie to our button
-        a.addClass("movie");
-        // Added a data-attribute
-        a.attr("data-name", movies[i]);
-        // Provided the initial button text
-        a.text(movies[i]);
-        // Added the button to the buttons-view div
-        $("#buttons-view").append(a);
+            $("#selection-view").click(function() {
+                selectionImage.toggle();
+                selectionGif.toggle();
+            });
+           
+        });
     }
-}
 
-// This function handles events where the add movie button is clicked
-$("#add-movie").on("click", function(event) {
-event.preventDefault();
-    // This line of code will grab the input from the textbox
-    var movie = $("#movie-input").val().trim();
+    function renderButtons() {
 
-    // The movie from the textbox is then added to our array
-    movies.push(movie);
+        $("#buttons-view").empty();
 
-    // Calling renderButtons which handles the processing of our movie array
+        for (var i = 0; i < selectionArray.length; i++) {
+
+            var newButton = $("<button>");
+            newButton.addClass("selection");
+            newButton.attr("data-name", selectionArray[i]);
+            newButton.text(selectionArray[i]);
+            $("#buttons-view").append(newButton);
+        }
+    }
+
+    $("#add-selection").on("click", function(event) {
+        event.preventDefault();
+        var selection = $("#selection-input").val().trim();
+        selectionArray.push(selection);
+        renderButtons();
+    });
+
+    $(document).on("click", ".selection", displaySelectionInfo);
+
     renderButtons();
+
+    // $("#selection-view").click(function() {
+    //     selectionGif.hide(); // hide the still image
+    //     selectionDiv.append(selectionGif);
+    // });
 });
-
-// Adding click event listeners to all elements with a class of "movie"
-$(document).on("click", ".movie", displayMovieInfo);
-
-// Calling the renderButtons function to display the intial buttons
-renderButtons();
