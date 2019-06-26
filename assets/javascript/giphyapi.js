@@ -41,7 +41,7 @@ $( document ).ready(function(){
         for (var i = 0; i < selectionArray.length; i++) {
 
             var newButton = $("<button>");
-            newButton.addClass("selection");
+            newButton.addClass("button");
             newButton.attr("data-name", selectionArray[i]);
             newButton.text(selectionArray[i]);
             $("#buttons-view").append(newButton);
@@ -55,7 +55,7 @@ $( document ).ready(function(){
         renderButtons();
     });
 
-    $(document).on("click", ".selection", displaySelectionInfo);
+    $(document).on("click", ".button", displaySelectionInfo);
 
     renderButtons();
 
