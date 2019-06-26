@@ -1,5 +1,6 @@
 $( document ).ready(function(){
-    var selectionArray = ["cat", "dog", "worm", "bug"];
+
+    var selectionArray = [ "car", "van", "truck", "sportscar" ];
 
     function displaySelectionInfo() {
 
@@ -12,6 +13,7 @@ $( document ).ready(function(){
         }).then(function(response) {
             
             var selectionDiv = $("<div>");
+            selectionDiv.addClass("selection");
 
             var selectionImage = $("<img>");
             selectionImage.addClass("still");
@@ -26,9 +28,10 @@ $( document ).ready(function(){
 
             $("#selection-view").prepend(selectionDiv);
 
-            $("#selection-view").click(function() {
-                selectionImage.toggle();
-                selectionGif.toggle();
+            $(".selection").click(function(event){
+                event.preventDefault();
+                $(this).find('.still').toggle();
+                $(this).find('.moving').toggle();
             });
            
         });
@@ -53,14 +56,10 @@ $( document ).ready(function(){
         var selection = $("#selection-input").val().trim();
         selectionArray.push(selection);
         renderButtons();
+        $("#selection-input").val('');
     });
 
     $(document).on("click", ".button", displaySelectionInfo);
 
     renderButtons();
-
-    // $("#selection-view").click(function() {
-    //     selectionGif.hide(); // hide the still image
-    //     selectionDiv.append(selectionGif);
-    // });
 });
