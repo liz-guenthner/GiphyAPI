@@ -3,7 +3,7 @@ $( document ).ready(function(){
     // header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, X-Auth-Token');
     // header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
 
-    var selectionArray = [ "scooby doo", "transformers", "smurfs", "sponge bob", "dungeons and dragons" ];
+    var selectionArray = [ "Scooby Doo", "Teenage Mutant Ninja Turtles", "Smurfs", "Sponge Bob", "Tom and Jerry" ];
 
     function displaySelectionInfo() {
         // add data-name to each button
@@ -37,7 +37,9 @@ $( document ).ready(function(){
                     // data-state attribute set to still
                     selectionGif.attr("data-state", "still" );
                     // append gif image to div
-                    selectionDiv.append(selectionGif);
+                    var p = $("<p>");
+                    p.text("Rating: " + results[i].rating);
+                    selectionDiv.append(selectionGif, p);
 
 
                     // add selection to #selection view div at beginning
