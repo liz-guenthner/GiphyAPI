@@ -1,54 +1,61 @@
 $( document ).ready(function(){
-    // header('Access-Control-Allow-Origin: *');
-    // header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, X-Auth-Token');
-    // header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
 
     var selectionArray = [ "Scooby Doo", "Teenage Mutant Ninja Turtles", "Smurfs", "Sponge Bob", "Tom and Jerry" ];
 
     function displaySelectionInfo() {
-        // add data-name to each button
+        // declare variable "selection" and add "data-name" attribute to each button
         var selection = $(this).attr("data-name");
+        // declare variable "queryURL" and set equal to api url
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=KeXx2zMYQ70666zLJ78Zk0l2j4aPSqu7&q=" + selection + "&limit=10&rating=G&lang=en";
 
         $.ajax({
-
+            // url is set to "queryURL" variable
             url: queryURL,
+            // methis is "GET" to pull data from api
             method: "GET"
+            // promise
             }).then(function(response) {
-
+                // declare variable "results" and set equal to object "response.data"
                 var results = response.data;
-
+                // iterate through array
                 for (var i = 0; i < results.length; i++) {
                 
                     // create div for selection view area
                     var selectionDiv = $("<div>");
-                    // add class called selection
+                    // add class called selection and col-sm-12 and col-md-4
                     selectionDiv.addClass("selection");
-                    // declare variable for each gif image
+                    selectionDiv.addClass("col-sm-12");
+                    selectionDiv.addClass("col-md-4");
+                    // declare variable "selectionGig" for each gif image
                     var selectionGif = $("<img>");
-                    // add class called gif
+                    // add class "gif"
                     selectionGif.addClass("gif");
                     // point src tag to url of still gif image in response object
-                    selectionGif.attr("src", results[i].images.original_still.url);
+                    selectionGif.attr("src", results[i].images.fixed_height_still.url);
                     // data-still attribute set to still gif image in response object
-                    selectionGif.attr("data-still", results[i].images.original_still.url);
+                    selectionGif.attr("data-still", results[i].images.fixed_height_still.url);
                     // data-animate attribute set to animated gif in response object
-                    selectionGif.attr("data-animate", results[i].images.original.url);
+                    selectionGif.attr("data-animate", results[i].images.fixed_height.url);
                     // data-state attribute set to still
                     selectionGif.attr("data-state", "still" );
-                    // append gif image to div
+                    // append gif image and title and rating to div
                     var p = $("<p>");
                     p.text("Rating: " + results[i].rating);
-                    selectionDiv.append(selectionGif, p);
+                    var title = $("<p>");
+                    title.text("Title: " + results[i].title);
+                    selectionDiv.append(selectionGif, title, p);
 
 
                     // add selection to #selection view div at beginning
                     $("#selection-view").prepend(selectionDiv);
 
-                    // onclick function to animate and freeze gif
-                    $(".gif").on("click", function() {
-                    
+                    // // onclick function to animate and freeze gif
+                    $(".gif").on("click", function(event) {
+                        
+                        event.preventDefault();
+                        
                         var state = $(this).attr("data-state");
+                        console.log(state);
 
                         if (state === 'still') {
                             $(this).attr("src", $(this).attr('data-animate'));
@@ -57,11 +64,12 @@ $( document ).ready(function(){
                             $(this).attr("src", $(this).attr('data-still'));
                             $(this).attr('data-state', 'still');
                         }
+                        return false;
                     });
+
                 }
             });
         }
-
 
         function renderButtons() {
 
@@ -78,14 +86,21 @@ $( document ).ready(function(){
         }
 
         $("#add-selection").on("click", function(event) {
+            
             event.preventDefault();
             var selection = $("#selection-input").val().trim();
-            selectionArray.push(selection);
-            renderButtons();
-            $("#selection-input").val('');
+            if (selection === '') {
+                alert("Please enter a Cartoon Title!");
+            } else {
+                selectionArray.push(selection);
+                renderButtons();
+                $("#selection-input").val('');
+            }
+            
         });
 
         $(document).on("click", ".button", displaySelectionInfo);
 
         renderButtons();
+
 });
