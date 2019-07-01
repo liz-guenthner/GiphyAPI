@@ -40,9 +40,9 @@ $( document ).ready(function(){
                     selectionGif.attr("data-state", "still" );
                     // append gif image and title and rating to div
                     var p = $("<p>");
-                    p.text("Rating: " + results[i].rating);
+                    p.html("<span>Rating:</span> " + (results[i].rating).toUpperCase());
                     var title = $("<p>");
-                    title.text("Title: " + results[i].title);
+                    title.html("<span>Title:</span> " + results[i].title);
                     selectionDiv.append(selectionGif, title, p);
 
 
