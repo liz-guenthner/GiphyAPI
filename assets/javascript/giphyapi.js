@@ -65,6 +65,7 @@ $( document ).ready(function(){
                             $(this).attr('data-state', 'still');
                         }
                         return false;
+                        
                     });
 
                 }
