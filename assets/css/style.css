@@ -23,12 +23,13 @@ h1 {
 }
 
 .button {
-    padding: 10px 20px;
+    padding: 15px 20px;
     margin: 0 10px;
     color: #fff;
     background-color: #167280;
     border-radius: 10px;
     cursor:pointer;
+    border:none;
 }
 button:first-child {
     margin-left: 0;
@@ -45,12 +46,13 @@ button:first-child {
 }
 
 #add-selection {
-    padding: 10px 20px;
+    padding: 15px 20px;
     background-color: green;
     margin: 10px 10px 0 0;
     color: #fff;
     border-radius: 10px;
     cursor:pointer;
+    border:none;
 }
 
 footer {
