@@ -1,13 +1,13 @@
 $( document ).ready(function(){
-
+    // array of pre-defined cartoons
     var selectionArray = [ "Scooby Doo", "Teenage Mutant Ninja Turtles", "Smurfs", "Sponge Bob", "Tom and Jerry" ];
-
+    // function defined to render gifs and info on page
     function displaySelectionInfo() {
         // declare variable "selection" and add "data-name" attribute to each button
         var selection = $(this).attr("data-name");
         // declare variable "queryURL" and set equal to api url
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=KeXx2zMYQ70666zLJ78Zk0l2j4aPSqu7&q=" + selection + "&limit=10&rating=G&lang=en";
-
+        // ajax call
         $.ajax({
             // url is set to "queryURL" variable
             url: queryURL,
@@ -71,7 +71,7 @@ $( document ).ready(function(){
                 }
             });
         }
-
+        // function defined to render buttons on page
         function renderButtons() {
 
             $("#buttons-view").empty();
@@ -85,7 +85,7 @@ $( document ).ready(function(){
                 $("#buttons-view").append(newButton);
             }
         }
-
+        // onclick function to add user input as button to button array and alert if empty submission from user
         $("#add-selection").on("click", function(event) {
             
             event.preventDefault();
@@ -99,9 +99,9 @@ $( document ).ready(function(){
             }
             
         });
-
+        // onclick function for "button" class to display gifs and info under form
         $(document).on("click", ".button", displaySelectionInfo);
-
+        // function called to render buttons on page
         renderButtons();
 
 });
