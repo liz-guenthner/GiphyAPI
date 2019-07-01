@@ -45,11 +45,15 @@ h1 {
 
 img.gif {
     max-width:95%;
+    height:183px;
 }
 
 p {
     margin: 5px 0;
     max-width:95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 span {
     font-weight: bold;
