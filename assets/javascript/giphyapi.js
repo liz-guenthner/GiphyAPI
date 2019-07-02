@@ -1,6 +1,28 @@
+
 $( document ).ready(function(){
+
+
+    $(document).on("click", ".gif", function(event){
+        
+        event.preventDefault();
+        
+        var state = $(this).attr("data-state");
+
+        if (state === 'still') {
+            $(this).attr("src", $(this).attr('data-animate'));
+            $(this).attr('data-state', 'animate');
+        } else {
+            $(this).attr("src", $(this).attr('data-still'));
+            $(this).attr('data-state', 'still');
+        }
+        return false;
+    });
+
     // array of pre-defined cartoons
     var selectionArray = [ "Scooby Doo", "Teenage Mutant Ninja Turtles", "Smurfs", "Sponge Bob", "Tom and Jerry" ];
+    selectionArray = selectionArray.map(function(x){ 
+        return x.toUpperCase();
+    });
     // function defined to render gifs and info on page
     function displaySelectionInfo() {
         // declare variable "selection" and add "data-name" attribute to each button
@@ -49,25 +71,6 @@ $( document ).ready(function(){
                     // add selection to #selection view div at beginning
                     $("#selection-view").prepend(selectionDiv);
 
-                    // // onclick function to animate and freeze gif
-                    $(".gif").on("click", function(event) {
-                        
-                        event.preventDefault();
-                        
-                        var state = $(this).attr("data-state");
-                        console.log(state);
-
-                        if (state === 'still') {
-                            $(this).attr("src", $(this).attr('data-animate'));
-                            $(this).attr('data-state', 'animate');
-                        } else {
-                            $(this).attr("src", $(this).attr('data-still'));
-                            $(this).attr('data-state', 'still');
-                        }
-                        return false;
-                        
-                    });
-
                 }
             });
         }
@@ -77,7 +80,6 @@ $( document ).ready(function(){
             $("#buttons-view").empty();
 
             for (var i = 0; i < selectionArray.length; i++) {
-
                 var newButton = $("<button>");
                 newButton.addClass("button");
                 newButton.attr("data-name", selectionArray[i]);
@@ -89,13 +91,17 @@ $( document ).ready(function(){
         $("#add-selection").on("click", function(event) {
             
             event.preventDefault();
-            var selection = $("#selection-input").val().trim();
+            var selection = $("#selection-input").val().trim().toUpperCase();
             if (selection === '') {
                 alert("Please enter a Cartoon Title!");
+            } else if (selectionArray.includes(selection)){
+                alert(selection + " is already a button! Try again...");
+                $("#selection-input").val('');
             } else {
                 selectionArray.push(selection);
                 renderButtons();
                 $("#selection-input").val('');
+
             }
             
         });
