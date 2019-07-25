@@ -2,6 +2,10 @@ Repo links:
 https://liz-guenthner.github.io/GiphyAPI/
 https://github.com/liz-guenthner/GiphyAPI
 
+Resume links:
+https://liz-guenthner.github.io/lizGuenthnerResume/
+https://github.com/liz-guenthner/lizGuenthnerResume
+
 Instructions:
 1. Click a button to see 10 still images of gifs pulled from giphy api
 2. Click on the still images to see gifs animate
